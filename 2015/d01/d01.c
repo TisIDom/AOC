@@ -16,14 +16,8 @@ int main()
 
     while((curr_char = fgetc(input_file)) != EOF)
     {
-        if(curr_char == '(')
-        {
-            height += 1;
-        }
-        else if(curr_char == ')')
-        {
-            height -= 1;
-        }
+        if(curr_char == '(') height++;
+        else if(curr_char == ')') height--;
         else{
             printf("Err, found %c", curr_char);
             return 1;
