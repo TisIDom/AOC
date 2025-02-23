@@ -26,26 +26,12 @@ int main()
             if(isdigit(*str))
             {
                 int val = (int)strtol(str,&str,10);
-                if(l == 0)
-                {
-                    l = val;
-                    continue;
-                }
-                else if(w == 0)
-                {
-                    w = val;
-                    continue;
-                }
-                else
-                {
-                    h = val;
-                    continue;
-                }
+                /*!l checks if it's 0*/
+                if(!l) l = val;
+                else if(!w) w = val;
+                else h = val;
             }
-            else
-            {
-                str++;
-            }
+            else str++;
         }
 
         int ribbon_length = l * w * h;
