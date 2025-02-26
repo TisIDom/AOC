@@ -13,47 +13,54 @@ int main()
 {
     FILE* input_file;
     int house_count = 0;
-    char current_char;
+    char curr_char;
     int curr_x = 0;
     int curr_y = 0;
-    struct Node* head = malloc(sizeof(struct Node));
-    struct Node* tail;
-    struct Node* curr_node;
 
-    head->next = malloc(sizeof(struct Node));
-    tail = head->next;
-    tail->next = NULL;
-    tail->x = 0;
-    tail->y = 0;
-    house_count = 1; //include the starting house
+    struct Node* head = malloc(sizeof(struct Node));
+    struct Node* new_node = malloc(sizeof(struct Node)); //node for the starting house
+    new_node->x = 0;
+    new_node->y = 0;
+    new_node->count = 1;
+    new_node->next = NULL;
+    head->next = new_node;
+    struct Node* tail = new_node;
+
+    house_count++; //include the starting house
 
     input_file = fopen("d03input.txt", "r");
 
-    while((current_char = fgetc(input_file)) != EOF)
+    while((curr_char = fgetc(input_file)) != EOF)
     {
-        if(current_char == '^') curr_y++;
-        else if(current_char == 'v') curr_y--;
-        else if(current_char == '>') curr_x++;
-        else if(current_char == '<') curr_x--;
+        if(curr_char == '^') curr_y++;
+        else if(curr_char == 'v') curr_y--;
+        else if(curr_char == '>') curr_x++;
+        else if(curr_char == '<') curr_x--;
 
-        curr_node = head->next;
-        _Bool isFound = 0;
+        struct Node* curr_node = head->next;
+        _Bool is_found = 0;
+        
         while(curr_node != NULL){
             if(curr_node->x == curr_x && curr_node->y == curr_y)
             {
                 curr_node->count++;
-                isFound = 1;
+                is_found = 1;
                 break;
             }
             curr_node = curr_node->next;
         }
-        if(isFound) continue;
-        tail->next = malloc(sizeof(struct Node));
+
+        if(is_found) continue;
+
+        struct Node* new_node = malloc(sizeof(struct Node));
+        new_node->x = curr_x;
+        new_node->y = curr_y;
+        new_node->count = 1;
+        new_node->next = NULL;
+        tail->next = new_node;
         tail = tail->next;
-        tail->next = NULL;
-        tail->x = curr_x;
-        tail->y = curr_y;
-        house_count++;
+
+        house_count++; //include the new house (at the new_node position)
     }
 
     printf("%d", house_count);
